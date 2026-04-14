@@ -1,0 +1,21 @@
+course outline
+relational management database systems
+1. intro to databases types of databases relational or NOSQL 
+2. database design 
+3. normalization. entity relationship diagram ERD 
+4. SQL structured query language Create Read Update Delete 
+5. SELECT statements
+6. INSERT statements
+7. UPDATE statements 
+8. DELETE statements
+9. create table SCHEMA
+10. string date functions 
+11. aggregate functions sum() count() avg() min() max()
+12. table joins types of join inner joins left outer joins
+13. mysql objects views, stored procedures, triggers
+14. transactions
+15. database administration user, security privileges
+16. vb.net and mysql
+
+
+lab work project 2 student per group
