@@ -46,3 +46,23 @@ LIMIT 4
 SELECT customer_id, lname, fname, addressline
 FROM customer
 LIMIT 5,2
+
+Conditions
+fetch all customers from nicetown
+
+SELECT lname, addressline, town 
+FROM customer 
+WHERE town = 'nicetown'
+
+fetch all customers that do not live in nicetown
+
+SELECT lname, addressline, town 
+FROM customer 
+WHERE town <> 'nicetown'
+ORDER BY lname DESC
+
+FETCH ALL ITEMS that the selling price is greater than 10
+SELECT description, sell_price 
+FROM item
+WHERE sell_price > 10
+ORDER BY sell_price
