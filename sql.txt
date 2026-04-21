@@ -89,4 +89,23 @@ FETCH ALL orders for the month of june
 2000-06-01 and 2000-06-30
 SELECT orderinfo_id, date_placed
 FROM orderinfo 
-WHERE date_placed >= '2000-09-01' AND date_placed <= '2000-09-30'
+WHERE date_placed >= '2000-09-01' AND  date_placed <= '2000-09-30'
+
+SELECT orderinfo_id, date_placed
+FROM orderinfo 
+WHERE date_placed BETWEEN '2000-09-01' AND '2000-09-30'
+
+FETCH all items that have cost price between 10 to 20
+SELECT description, cost_price
+FROM item 
+WHERE cost_price BETWEEN 10 AND 20
+ORDER BY description DESC
+
+fetch all customers from bingham, nicetown and welltown
+SELECT fname, lname AS `last name`, town
+FROM customer 
+WHERE town = 'nicetown' OR town = 'bingham' OR  town = 'welltown'
+
+SELECT fname, lname AS `last name`, town
+FROM customer 
+WHERE town IN ('nicetown', 'bingham', 'welltown')
