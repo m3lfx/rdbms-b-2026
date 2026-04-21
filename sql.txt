@@ -66,3 +66,27 @@ SELECT description, sell_price
 FROM item
 WHERE sell_price > 10
 ORDER BY sell_price
+
+fetch all orders from month of june onwards
+SELECT orderinfo_id, date_placed
+FROM orderinfo
+WHERE  date_placed <= '2000-06-01' 
+ORDER BY date_placed
+
+fetch all items that have cost price between 5 and 10 
+
+if (cost_price >= 5 and cost_price <=10)
+SELECT description, cost_price 
+FROM item
+WHERE cost_price >= 5 AND (cost_price <= 10 OR cost_price = 100)
+
+GET All customers that live in bingham or nicetown
+SELECT fname, town 
+FROM customer
+WHERE town = 'nicetown' AND town = 'bingham'
+
+FETCH ALL orders for the month of june
+2000-06-01 and 2000-06-30
+SELECT orderinfo_id, date_placed
+FROM orderinfo 
+WHERE date_placed >= '2000-09-01' AND date_placed <= '2000-09-30'
