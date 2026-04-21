@@ -106,6 +106,17 @@ SELECT fname, lname AS `last name`, town
 FROM customer 
 WHERE town = 'nicetown' OR town = 'bingham' OR  town = 'welltown'
 
-SELECT fname, lname AS `last name`, town
+SELECT fname AS 'first name', lname AS `last name`, town
 FROM customer 
 WHERE town IN ('nicetown', 'bingham', 'welltown')
+
+fetch all customers having their last name that start with 'H'
+
+LIKE 'H%'
+SELECT lname from customer where lname LIKE 'H%'
+
+fetch all customers that have exactly four characters in their first name 
+SELECT fname from customer where fname  NOT LIKE '____'
+
+FETCH all customers that have an 's' on their last name
+SELECT lname from customer where lname   LIKE '%s%'
