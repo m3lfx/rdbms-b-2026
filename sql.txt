@@ -1,0 +1,30 @@
+fetch data 
+SELECT *
+FROM customer;
+
+select * from item;
+
+SELECT * 
+FROM orderinfo;
+
+SELECT fname, lname, addressline, phone
+FROM customer;
+
+SELECT description cost_price
+FROM item
+
+SELECT DISTINCT lname from customer;
+
+SELECT DISTINCT lname, fname from customer;
+
+SELECT lname, fname, addressline
+FROM customer
+ORDER BY lname
+
+SELECT lname, fname, addressline
+FROM customer
+ORDER BY lname DESC
+
+SELECT description, sell_price 
+FROM item
+ORDER BY sell_price DESC
