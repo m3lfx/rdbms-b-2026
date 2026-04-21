@@ -28,3 +28,21 @@ ORDER BY lname DESC
 SELECT description, sell_price 
 FROM item
 ORDER BY sell_price DESC
+
+SELECT lname, fname, addressline
+FROM customer
+ORDER BY lname, fname
+
+SELECT description, sell_price 
+FROM item
+ORDER BY sell_price DESC
+LIMIT 5
+
+SELECT customer_id, lname, fname, addressline
+FROM customer
+LIMIT 4
+
+
+SELECT customer_id, lname, fname, addressline
+FROM customer
+LIMIT 5,2
