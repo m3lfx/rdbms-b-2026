@@ -1,0 +1,3 @@
+keyboard,100,200
+mouse,200,240
+laptop,100,200

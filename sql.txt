@@ -227,3 +227,6 @@ LOAD DATA LOCAL INFILE 'd:/rdbms-1B-2026/cust.csv' INTO TABLE customer FIELDS TE
 
 
 LOAD DATA LOCAL INFILE 'd:/itim130-1a-2026/item.csv' INTO TABLE item FIELDS TERMINATED BY ',' (description, cost_price, sell_price);
+
+mysqlimport  --local -p --user=root --fields-terminated-by=, --columns=description,cost_price,sell_price db_sample1b  d:/rdbms-1B-2026/item.txt
+
