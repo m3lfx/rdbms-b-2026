@@ -346,3 +346,41 @@ SELECT o.orderinfo_id, sum(ol.quantity)
 FROM customer c INNER JOIN orderinfo o ON c.customer_id = o.customer_id 
 INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id 
 GROUP BY ol.orderinfo_id
+
+fetch all items and their total quantity sold.
+SELECT i.description, sum(ol.quantity) AS `total products sold`
+FROM item i INNER JOIN orderline ol ON i.item_id = ol.item_id
+GROUP BY ol.item_id
+ORDER BY `total products sold`
+
+TOP 5 popular products
+SELECT i.description, sum(ol.quantity) AS `total products sold`
+FROM item i INNER JOIN orderline ol ON i.item_id = ol.item_id
+GROUP BY ol.item_id
+ORDER BY `total products sold` DESC
+LIMIT 1
+
+SELECT avg(quantity)
+from orderline
+
+SELECT max(sell_price)
+from item
+
+SELECT min(sell_price)
+from item
+
+most expensive item 
+SELECT description, sell_price 
+FROM item 
+ORDER BY sell_price DESC 
+LIMIT 1
+
+get the total amount paid for order number 6
+ total amount += quantity * sell_price
+ total_amount = 0 + (10 * 3.99)  
+total_amount = 39.9 + (1 * 25.32)  
+update item set sell_price = cost_price + 100
+where item_id = 10
+SELECT ol.orderinfo_id, sum(ol.quantity * i.sell_price)
+FROM item i INNER JOIN orderline ol ON i.item_id = ol.item_id
+WHERE ol.orderinfo_id = 6
