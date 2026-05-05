@@ -390,6 +390,19 @@ SELECT sum(ol.quantity * i.sell_price) as `total income`
 FROM item i INNER JOIN orderline ol ON i.item_id = ol.item_id
 
 get the total for each order
-SELECT ol.orderinfo_id, sum(ol.quantity * i.sell_price) as `total income`
+SELECT ol.orderinfo_id, sum(ol.quantity * i.sell_price) as total
 FROM item i INNER JOIN orderline ol ON i.item_id = ol.item_id
 GROUP BY ol.orderinfo_id
+ORDER BY total DESC
+
+what is the income for the month of september
+SELECT monthname(o.date_placed), sum(ol.quantity * i.sell_price) as total
+FROM orderinfo o INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id 
+INNER JOIN item i ON i.item_id = ol.item_id
+WHERE month(date_placed) = 9
+
+get the monthly income
+SELECT monthname(o.date_placed), sum(ol.quantity * i.sell_price) as total
+FROM orderinfo o INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id 
+INNER JOIN item i ON i.item_id = ol.item_id
+GROUP BY month(o.date_placed)
