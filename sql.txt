@@ -282,4 +282,18 @@ select orderinfo_id, date_format(date_placed, '%M %d, %Y' ) as `date order`
 from orderinfo 
 where monthname(date_placed) = 'september'
 
+select date_add(now(), INTERVAL 10 YEAR)
 
+select DAYNAME(date_add(now(), INTERVAL 10 MONTH))
+
+select date_format(date_add(now(), INTERVAL 10 MONTH), '%M %d, %Y %W' )
+
+INSERT INTO orderinfo(customer_id, date_placed, date_shipped, shipping)
+VALUES(48, now(), date_add(now(), INTERVAL 10 DAY ), 400)
+
+select date_format(date_add(now(), INTERVAL -10 MONTH), '%M %d, %Y %W' )
+
+select date_format(date_sub(now(), INTERVAL 20 YEAR), '%M %d, %Y %W' )
+
+UPDATE orderinfo SET date_shipped = date_add(date_shipped, INTERVAL 5 DAY)
+WHERE orderinfo_id = 6
