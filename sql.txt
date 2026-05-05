@@ -216,3 +216,7 @@ VALUES ( '2026-05-05', now(), 100)
 
 INSERT INTO orderline(orderinfo_id, item_id, quantity)
 VALUES(6,4,10), (6,11,1)
+
+add three items 99999.99
+INSERT INTO item (description, cost_price, sell_price)
+VALUES('vans', 200, 550.50), ('keds', 100, 250.50),('new balance', 200, 550.50)
