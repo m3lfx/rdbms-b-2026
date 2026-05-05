@@ -251,3 +251,7 @@ WHERE orderinfo_id = 7
 
 DELETE FROM customer 
 WHERE town = 'alabang'
+
+delete from item
+
+TRUNCATE item
