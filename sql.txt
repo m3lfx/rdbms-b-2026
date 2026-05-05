@@ -120,3 +120,19 @@ SELECT fname from customer where fname  NOT LIKE '____'
 
 FETCH all customers that have an 's' on their last name
 SELECT lname from customer where lname   LIKE '%s%'
+
+fetch all customers and their orders
+SELECT customer.customer_id, orderinfo.orderinfo_id, customer.fname, customer.lname, orderinfo.date_placed, orderinfo.shipping
+FROM customer, orderinfo 
+WHERE customer.customer_id = orderinfo.customer_id
+
+SELECT customer.customer_id, o.orderinfo_id, c.fname, c.lname , o.date_placed, o.shipping
+FROM customer c, orderinfo o 
+WHERE c.customer_id = o.customer_id
+
+fetch all customers who ordered for the month of july
+
+SELECT c.customer_id, o.orderinfo_id, c.fname, c.lname , o.date_placed, o.shipping
+FROM customer c, orderinfo o 
+WHERE c.customer_id = o.customer_id
+AND o.date_placed BETWEEN '2000-07-01' AND '2000-07-31'
