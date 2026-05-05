@@ -230,3 +230,24 @@ LOAD DATA LOCAL INFILE 'd:/itim130-1a-2026/item.csv' INTO TABLE item FIELDS TERM
 
 mysqlimport  --local -p --user=root --fields-terminated-by=, --columns=description,cost_price,sell_price db_sample1b  d:/rdbms-1B-2026/item.txt
 
+UPDATE the price of laptop 
+UPDATE item SET cost_price = 70000, sell_price = 80000
+WHERE item_id = 18
+
+update all item prices by 200 pesos 
+UPDATE item SET sell_price = sell_price + 200
+
+UPDATE customer SET town = 'alabang'
+WHERE  
+
+UPDATE customer SET town = 'taguig'
+WHERE customer_id BETWEEN 1 AND 5
+
+UPDATE orderinfo SET date_shipped = '2026-05-10'
+WHERE orderinfo_id = 6
+
+DELETE * FROM orderinfo 
+WHERE orderinfo_id = 7
+
+DELETE FROM customer 
+WHERE town = 'alabang'
