@@ -297,3 +297,33 @@ select date_format(date_sub(now(), INTERVAL 20 YEAR), '%M %d, %Y %W' )
 
 UPDATE orderinfo SET date_shipped = date_add(date_shipped, INTERVAL 5 DAY)
 WHERE orderinfo_id = 6
+
+aggregate functions 
+
+get the total number of customers 
+SELECT count(*)
+FROM customer
+
+SELECT count(phone) from customer;
+
+count the number of customers living in bingham
+select town, count(town) as total
+from customer 
+where town = 'bingham'
+
+count the number of customer per town
+select town, count(town)
+from customer 
+GROUP BY town
+ORDER BY count(town) DESC
+
+select town, count(town) AS total
+from customer 
+GROUP BY town
+ORDER BY total DESC
+
+get the total number of products sold
+SELECT sum(quantity)
+FROM orderline;
+
+get the total items bought by customers from bingham
