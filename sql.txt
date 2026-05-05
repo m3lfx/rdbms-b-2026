@@ -136,3 +136,11 @@ SELECT c.customer_id, o.orderinfo_id, c.fname, c.lname , o.date_placed, o.shippi
 FROM customer c, orderinfo o 
 WHERE c.customer_id = o.customer_id
 AND o.date_placed BETWEEN '2000-07-01' AND '2000-07-31'
+
+fetch all customers and the items they bought.
+
+SELECT o.orderinfo_id, concat(c.fname, ' ', c.lname) AS `full name`, i.item_id, i.description, ol.quantity
+FROM  customer c, orderinfo o, orderline ol, item i 
+WHERE c.customer_id = o.customer_id 
+AND o.orderinfo_id = ol.orderinfo_id
+AND i.item_id = ol.item_id
