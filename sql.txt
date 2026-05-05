@@ -255,3 +255,31 @@ WHERE town = 'alabang'
 delete from item
 
 TRUNCATE item
+
+SELECT date(now())
+select monthname(now())
+select year(now())
+
+SELECT date_format('2026-01-01', '%M %d %Y' )
+SELECT date_format(now(), '%W of%M%d %Y %h:%i.%s %p' )
+
+SELECT orderinfo_id, date_format(date_placed, '%M %d, %Y' ) as `date order`
+FROM orderinfo
+
+select orderinfo_id, date_placed 
+from orderinfo 
+where date_placed BETWEEN '2000-09-01' AND '2000-09-30'
+
+select orderinfo_id, date_format(date_placed, '%M %d, %Y' ) as `date order` 
+from orderinfo 
+where date_placed BETWEEN '2000-09-01' AND '2000-09-30'
+
+select orderinfo_id, date_format(date_placed, '%M %d, %Y' ) as `date order` 
+from orderinfo 
+where month(date_placed) = 9
+
+select orderinfo_id, date_format(date_placed, '%M %d, %Y' ) as `date order` 
+from orderinfo 
+where monthname(date_placed) = 'september'
+
+
