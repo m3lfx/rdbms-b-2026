@@ -180,3 +180,23 @@ WHERE o.orderinfo_id = ol.orderinfo_id
 AND i.item_id = ol.item_id
 AND o.date_placed BETWEEN '2000-09-01' AND '2000-09-30'
 
+fetch all items that were bought by customers with an 's' on their last name
+
+SELECT c.lname, i.description 
+FROM customer c INNER JOIN orderinfo o ON c.customer_id = o.customer_id 
+INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id 
+INNER JOIN item i ON i.item_id = ol.item_id
+WHERE c.lname LIKE '%s%'
+
+SELECT c.lname, i.description 
+FROM customer c  JOIN orderinfo o ON c.customer_id = o.customer_id 
+JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id 
+JOIN item i ON i.item_id = ol.item_id
+WHERE c.lname LIKE '%s%'
+
+SELECT c.lname, i.description 
+FROM customer c INNER JOIN orderinfo o USING (customer_id)
+INNER JOIN orderline ol USING (orderinfo_id)
+INNER JOIN item i USING (item_id)
+WHERE c.lname LIKE '%s%'
+
