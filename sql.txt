@@ -340,3 +340,9 @@ SELECT o.orderinfo_id, sum(ol.quantity)
 FROM customer c INNER JOIN orderinfo o ON c.customer_id = o.customer_id 
 INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id 
 WHERE o.orderinfo_id = 6
+
+get the total items for each order 
+SELECT o.orderinfo_id, sum(ol.quantity)
+FROM customer c INNER JOIN orderinfo o ON c.customer_id = o.customer_id 
+INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id 
+GROUP BY ol.orderinfo_id
