@@ -144,3 +144,21 @@ FROM  customer c, orderinfo o, orderline ol, item i
 WHERE c.customer_id = o.customer_id 
 AND o.orderinfo_id = ol.orderinfo_id
 AND i.item_id = ol.item_id
+
+select *
+from customer, orderinfo,orderline,item
+
+select customers that bought tissues or small fan
+SELECT o.orderinfo_id, concat(c.fname, ' ', c.lname) AS `full name`, i.item_id, i.description, ol.quantity
+FROM  customer c, orderinfo o, orderline ol, item i 
+WHERE c.customer_id = o.customer_id 
+AND o.orderinfo_id = ol.orderinfo_id
+AND i.item_id = ol.item_id
+AND (i.description = 'tissues' OR i.description = 'fan small')
+
+SELECT o.orderinfo_id, concat(c.fname, ' ', c.lname) AS `full name`, i.item_id, i.description, ol.quantity
+FROM  customer c, orderinfo o, orderline ol, item i 
+WHERE c.customer_id = o.customer_id 
+AND o.orderinfo_id = ol.orderinfo_id
+AND i.item_id = ol.item_id
+AND i.description IN ('tissues','fan small')
