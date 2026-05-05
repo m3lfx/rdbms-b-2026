@@ -327,3 +327,16 @@ SELECT sum(quantity)
 FROM orderline;
 
 get the total items bought by customers from bingham
+SELECT c.town, sum(ol.quantity) 
+FROM customer c INNER JOIN orderinfo o ON c.customer_id = o.customer_id 
+INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id 
+WHERE c.town = 'bingham'
+
+how many items were in order number 6
+update orderinfo set customer_id = 15
+where customer_id = 17
+
+SELECT o.orderinfo_id, sum(ol.quantity)
+FROM customer c INNER JOIN orderinfo o ON c.customer_id = o.customer_id 
+INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id 
+WHERE o.orderinfo_id = 6
