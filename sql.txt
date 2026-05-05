@@ -200,3 +200,13 @@ INNER JOIN orderline ol USING (orderinfo_id)
 INNER JOIN item i USING (item_id)
 WHERE c.lname LIKE '%s%'
 
+add a new customer 
+INSERT INTO customer (customer_id, title, lname, fname, addressline, town, zipcode, phone) 
+VALUES ('16', 'mr', 'james', 'bronny', 'tenement', 'taguig', '1630', '09008743')
+
+INSERT INTO customer (title, lname, fname, addressline, town, zipcode, phone) 
+VALUES ('mr', 'james', 'lebronny', 'blc upper', 'taguig', '1630', '09008743')
+
+add a new order 
+INSERT INTO orderinfo (customer_id, date_placed, date_shipped, shipping) 
+VALUES (17, '2026-05-05', now(), 100)
