@@ -210,3 +210,9 @@ VALUES ('mr', 'james', 'lebronny', 'blc upper', 'taguig', '1630', '09008743')
 add a new order 
 INSERT INTO orderinfo (customer_id, date_placed, date_shipped, shipping) 
 VALUES (17, '2026-05-05', now(), 100)
+
+INSERT INTO orderinfo (date_placed, date_shipped, shipping) 
+VALUES ( '2026-05-05', now(), 100)
+
+INSERT INTO orderline(orderinfo_id, item_id, quantity)
+VALUES(6,4,10), (6,11,1)
