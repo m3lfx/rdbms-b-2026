@@ -162,3 +162,21 @@ WHERE c.customer_id = o.customer_id
 AND o.orderinfo_id = ol.orderinfo_id
 AND i.item_id = ol.item_id
 AND i.description IN ('tissues','fan small')
+
+fetch all items that were bought by customers from bingham or nicetown
+
+SELECT o.orderinfo_id, c.town,  i.item_id, i.description, ol.quantity
+FROM  customer c, orderinfo o, orderline ol, item i 
+WHERE c.customer_id = o.customer_id 
+AND o.orderinfo_id = ol.orderinfo_id
+AND i.item_id = ol.item_id
+AND c.town IN ('bingham','nicetown')
+
+
+what items that were sold for the month of september.
+SELECT o.orderinfo_id, o.date_placed, i.item_id, i.description, ol.quantity
+FROM  orderinfo o, orderline ol, item i 
+WHERE o.orderinfo_id = ol.orderinfo_id
+AND i.item_id = ol.item_id
+AND o.date_placed BETWEEN '2000-09-01' AND '2000-09-30'
+
