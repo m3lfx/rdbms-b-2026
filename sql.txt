@@ -406,3 +406,47 @@ SELECT monthname(o.date_placed), sum(ol.quantity * i.sell_price) as total
 FROM orderinfo o INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id 
 INNER JOIN item i ON i.item_id = ol.item_id
 GROUP BY month(o.date_placed)
+
+regex
+Select lname from customer where binary lname REGEXP "^M.*";
+
+Select lname from customer where binary lname REGEXP ".*on.*";
+Select lname from customer where binary lname REGEXP ".*on.+";
+Select lname from customer where binary lname REGEXP ".*[on].*";
+Select lname from customer where binary lname REGEXP "^[SJ]";
+Select lname from customer where binary lname REGEXP "^[A-N]";
+Select lname from customer where binary lname REGEXP "^[A-Ns-z]" order by lname;
+Select phone from customer where binary phone REGEXP "^[0-5]"
+
+Select strcmp('foo', 'foo');
+Select strcmp('foo', 'FOO');
+Select strcmp('foo', binary 'FOO');
+Select strcmp('foo', 'bar');
+Select ceiling(2.4), floor(2.4),round(2.67)
+Select description, MID(description,2,6), 
+UPPER(description) 
+FROM item where item_id = 6;
+
+Select ASCII('A'),
+Char(65,66,67),
+Concat('hello',0x20,0x57, 'orld');
+
+CREATE TABLE testcolcons (
+Colnotnull INT NOT NULL,
+Colprikey INT NOT NULL PRIMARY KEY,
+Coldefault INT DEFAULT 42);
+
+INSERT INTO testcolcons(colnotnull, colprikey,coldefault)
+	values(1,1,1);
+INSERT INTO testcolcons(colnotnull, colprikey,coldefault)
+	values(2,2,NULL);
+INSERT INTO testcolcons(colnotnull, colprikey,coldefault)
+	values(NULL,3,NULL);
+INSERT INTO testcolcons(colnotnull, colprikey,coldefault)
+	values(3,2,NULL);
+INSERT INTO testcolcons(colnotnull, colprikey,coldefault)
+	values(3,3);
+    INSERT INTO testcolcons(colnotnull, colprikey)
+	values(3,3);
+Select * from testcolcons;
+UPDATE testcolcons SET colprikey = 2 where colnotnul=3;
