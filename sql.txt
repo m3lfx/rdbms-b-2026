@@ -450,3 +450,27 @@ INSERT INTO testcolcons(colnotnull, colprikey,coldefault)
 	values(3,3);
 Select * from testcolcons;
 UPDATE testcolcons SET colprikey = 2 where colnotnul=3;
+
+CREATE TABLE ttconst (
+	mykey1 INT,
+    mykey2 INT NOT NULL, 
+    mystring varchar(15) NOT NULL, 
+    CONSTRAINT cs1 UNIQUE(mykey1),
+    CONSTRAINT cs2 PRIMARY KEY(mykey2,mystring));
+
+    Insert into ttconst values(1,2, 'Amy Jones');
+Insert into ttconst values(1,2, 'Dave jones');
+Insert into ttconst values(2,2, 'Dave jones');
+Insert into ttconst values(3,2, 'Amy Jones');
+
+CREATE TABLE c2 select fname,lname,zipcode FROM customer
+	WHERE (town='bingham') OR (town = 'Nicetown');
+
+ALTER TABLE c2 ADD COLUMN last_contact date AFTER zipcode;
+ALTER TABLE c2 CHANGE COLUMN zipcode zipcode2 char(15);
+DESCRIBE c2;
+SELECT * FROM c2;
+ALTER TABLE c2 CHANGE COLUMN fname fname char(32) NOT NULL ;
+ALTER TABLE c2 ADD PRIMARY KEY(fname,lname);
+ALTER TABLE c2 DROP PRIMARY KEY;
+ALTER TABLE c2 RENAME TO cTwo;
