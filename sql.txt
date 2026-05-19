@@ -1247,4 +1247,8 @@ Public Class Form3
     End Sub
 End Class
 
+Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        DataGridView1.Rows.Add(Val(cboitemid.SelectedItem), txtDescription.Text, Convert.ToDecimal(txtSellPrice.Text), Val(txtQty.Text))
+    End Sub
+
 
