@@ -209,7 +209,7 @@ VALUES ('mr', 'james', 'lebronny', 'blc upper', 'taguig', '1630', '09008743')
 
 add a new order 
 INSERT INTO orderinfo (customer_id, date_placed, date_shipped, shipping) 
-VALUES (17, '2026-05-05', now(), 100)
+VALUES (17, '2026-05-05', now(), 100);
 
 INSERT INTO orderinfo (date_placed, date_shipped, shipping) 
 VALUES ( '2026-05-05', now(), 100)
@@ -579,10 +579,12 @@ mysqldump -uroot -p db_sample1b > d:/rdbms-1b-2026/db_1b_20260512.sql
 
 mysql -uroot -p db_new1b < d:/rdbms-1b-2026/db_1b_20260512.sql
 
-having
+HAVING
 FETCH customers that spent 500 pesos and above.
+INSERT INTO orderline(orderinfo_id, item_id, quantity)
+VALUES(9,9,5),(9,10,5),(9,11,5)
 
-SELECT sum(i.sell_price * ol.quantity) as total, c.customer_id, upper(concat(c.fname, " ", c.lname)) AS `full name`
+SELECT sum(i.sell_price * ol.quantity) AS total, c.customer_id, upper(concat(c.fname, " ", c.lname)) AS `full name`
 FROM customer c INNER JOIN orderinfo o ON c.customer_id = o.customer_id
 INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id
 INNER JOIN item i ON i.item_id = ol.item_id
@@ -592,6 +594,25 @@ ORDER BY total DESC
 
 LEFT JOIN 
 fetch all customer(including customers with no orders) and their orders.
+SELECT o.orderinfo_id, concat(c.fname, " ", c.lname) as name, i.description
+FROM customer c INNER JOIN orderinfo o ON c.customer_id = o.customer_id 
+INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id 
+INNER JOIN item i ON i.item_id = ol.item_id
+
+SELECT c.customer_id, concat(c.fname, " ", c.lname) as name, o.orderinfo_id
+FROM customer c LEFT JOIN orderinfo o ON c.customer_id = o.customer_id 
+LEFT JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id 
+LEFT JOIN item i ON i.item_id = ol.item_id
+
+SELECT c.customer_id, concat(c.fname, " ", c.lname) as name, o.orderinfo_id, ol.quantity
+FROM customer c LEFT JOIN orderinfo o ON c.customer_id = o.customer_id 
+INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id 
+LEFT JOIN item i ON i.item_id = ol.item_id
+
+fetch all items including those that were not sold
+\
+SELECT i.description, ol.quantity 
+FROM item i LEFT JOIN orderline ol ON i.item_id = ol.item_id
 
 RIGHT JOIN
 SELECT o.orderinfo_id, c.lname, c.fname, o.date_placed
