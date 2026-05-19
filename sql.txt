@@ -1195,4 +1195,56 @@ Public Class Form2
     End Sub
 End Class
 
+Imports MySql.Data.MySqlClient
+Public Class Form3
+    Dim conn As MySqlConnection = New MySqlConnection("Data Source=localhost;Database=db_sample1b;User=root;Password=")
+    Public sql As String
+    Public dbcomm As MySqlCommand
+    Public dbread As MySqlDataReader
+    Public DataAdapter1 As MySqlDataAdapter
+    Public ds As DataSet
+    Private Sub Form3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim id As Integer = Val(Form1.TextBox1.Text)
+        cbocid.SelectedText = id
+        Try
+            conn.Open()
+            sql = "SELECT customer_id FROM customer"
+            dbcomm = New MySqlCommand(sql, conn)
+            dbread = dbcomm.ExecuteReader()
+
+
+            While dbread.Read()
+                cbocid.Items.Add(dbread("customer_id"))
+
+            End While
+        Catch ex As MySqlException
+            MsgBox(ex.Message)
+            conn.Close()
+        Catch ex As Exception
+            MsgBox(ex.Message)
+            conn.Close()
+        End Try
+        dbread.Close()
+
+        Try
+            sql = "SELECT * FROM item i INNER JOIN stock s ON i.item_id = s.item_id"
+            'sql = "SELECT * FROM item"
+            dbcomm = New MySqlCommand(sql, conn)
+            dbread = dbcomm.ExecuteReader()
+            While dbread.Read()
+                cboitemid.Items.Add(dbread("item_id"))
+            End While
+        Catch ex As MySqlException
+            MsgBox(ex.Message)
+            conn.Close()
+        Catch ex As Exception
+            MsgBox(ex.Message)
+            conn.Close()
+
+        End Try
+        dbread.Close()
+        conn.Close()
+    End Sub
+End Class
+
 
