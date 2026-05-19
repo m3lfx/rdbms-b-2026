@@ -1252,3 +1252,164 @@ Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Clic
     End Sub
 
 
+Imports MySql.Data.MySqlClient
+Public Class Form3
+    Dim conn As MySqlConnection = New MySqlConnection("Data Source=localhost;Database=db_sample1b;User=root;Password=")
+    Public sql As String
+    Public dbcomm As MySqlCommand
+    Public dbread As MySqlDataReader
+    Public DataAdapter1 As MySqlDataAdapter
+    Public ds As DataSet
+    Private Sub Form3_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim id As Integer = Val(Form1.TextBox1.Text)
+        cbocid.SelectedText = id
+        Try
+            conn.Open()
+            sql = "SELECT customer_id FROM customer"
+            dbcomm = New MySqlCommand(sql, conn)
+            dbread = dbcomm.ExecuteReader()
+
+
+            While dbread.Read()
+                cbocid.Items.Add(dbread("customer_id"))
+
+            End While
+        Catch ex As MySqlException
+            MsgBox(ex.Message)
+            conn.Close()
+        Catch ex As Exception
+            MsgBox(ex.Message)
+            conn.Close()
+        End Try
+        dbread.Close()
+
+        Try
+            sql = "SELECT * FROM item i INNER JOIN stock s ON i.item_id = s.item_id"
+            'sql = "SELECT * FROM item"
+            dbcomm = New MySqlCommand(sql, conn)
+            dbread = dbcomm.ExecuteReader()
+            While dbread.Read()
+                cboitemid.Items.Add(dbread("item_id"))
+            End While
+        Catch ex As MySqlException
+            MsgBox(ex.Message)
+            conn.Close()
+        Catch ex As Exception
+            MsgBox(ex.Message)
+            conn.Close()
+
+        End Try
+        dbread.Close()
+        conn.Close()
+    End Sub
+
+    Private Sub cboitemid_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboitemid.SelectedIndexChanged
+        txtDescription.Clear()
+        txtSellPrice.Clear()
+        txtQty.Clear()
+
+        'Dim itemId As Integer = Val(cboitemid.SelectedItem)
+        Try
+            conn.Open()
+            sql = $"SELECT i.description, i.sell_price, s.quantity FROM item i INNER JOIN stock s ON i.item_id = s.item_id WHERE i.item_id = {Val(cboitemid.SelectedItem)}"
+            dbcomm = New MySqlCommand(sql, conn)
+            dbread = dbcomm.ExecuteReader()
+            dbread.Read()
+            txtDescription.Text = dbread("description")
+            txtSellPrice.Text = dbread("sell_price")
+            txtQty.Text = Val(dbread("quantity"))
+        Catch ex As MySqlException
+            MsgBox(ex.Message)
+            conn.Close()
+        Catch ex As Exception
+            MsgBox(ex.Message)
+            conn.Close()
+
+        End Try
+        dbread.Close()
+        conn.Close()
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        DataGridView1.Rows.Add(Val(cboitemid.SelectedItem), txtDescription.Text, Convert.ToDecimal(txtSellPrice.Text), Val(txtQty.Text))
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        DataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        If DataGridView1.SelectedRows.Count > 0 Then
+            'you may want to add a confirmation message, and if the user confirms delete
+            DataGridView1.Rows.Remove(DataGridView1.SelectedRows(0))
+        Else
+            MessageBox.Show("Select 1 row before you hit Delete")
+        End If
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        Dim total As Decimal = 0.0
+
+        For Each row As DataGridViewRow In DataGridView1.Rows
+            total += (row.Cells("sell_price").Value * row.Cells("quantity").Value)
+
+        Next
+        Label1.Text = total
+    End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        Dim i As Integer = 0
+        Dim customerId As Integer = Val(cbocid.Text)
+        'Dim myTrans As MySqlTransaction
+
+
+        Try
+            conn.Open()
+            'myTrans = conn.BeginTransaction()
+
+            sql = $"INSERT INTO orderinfo (customer_id, date_placed, date_shipped, status) VALUES({customerId}, now(), '{Convert.ToDateTime(DateTimePicker1.Value).ToString("yyyy-MM-dd")}', {Val(txtShip.Text)} )"
+            Label1.Text = sql
+            dbcomm = New MySqlCommand(sql, conn)
+
+            i = dbcomm.ExecuteNonQuery
+            If (i > 0) Then
+                MsgBox("record saved")
+            Else
+                MsgBox("record not saved")
+
+            End If
+
+            For Each row As DataGridViewRow In DataGridView1.Rows
+                sql = $"INSERT INTO orderline (orderinfo_id, item_id, quantity) VALUES(last_insert_id(), {row.Cells("item_id").Value}, {row.Cells("quantity").Value})"
+                Label1.Text = sql
+                dbcomm = New MySqlCommand(sql, conn)
+                i = dbcomm.ExecuteNonQuery
+                If (i > 0) Then
+                    MsgBox("record saved")
+                Else
+                    MsgBox("record not saved")
+
+                End If
+                sql = $"UPDATE stock SET quantity = quantity - {Val(row.Cells("quantity").Value)} WHERE item_id = {Val(row.Cells("item_id").Value)}"
+                dbcomm = New MySqlCommand(sql, conn)
+                i = dbcomm.ExecuteNonQuery
+                If (i > 0) Then
+                    MsgBox("record saved")
+                Else
+                    MsgBox("record not saved")
+
+                End If
+            Next
+            'myTrans.Commit()
+
+        Catch ex As MySqlException
+            MsgBox(ex.Message)
+            'myTrans.Rollback()
+
+            conn.Close()
+        Catch ex As Exception
+            MsgBox(ex.Message)
+            'myTrans.Rollback()
+
+            conn.Close()
+        End Try
+        conn.Close()
+    End Sub
+End Class
