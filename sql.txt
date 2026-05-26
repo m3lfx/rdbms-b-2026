@@ -1413,3 +1413,146 @@ Public Class Form3
         conn.Close()
     End Sub
 End Class
+
+fetch all customers and orders and compute total
+
+SELECT o.orderinfo_id, concat(c.fname, " ", c.lname) AS name, concat(c.addressline, " ", c.town, " ", c.zipcode) AS address, sum(i.sell_price * ol.quantity) as total, o.status
+FROM customer c INNER JOIN orderinfo o ON c.customer_id = o.customer_id
+INNER JOIN orderline ol ON o.orderinfo_id = ol.orderinfo_id
+INNER JOIN item i ON i.item_id = ol.item_id
+GROUP BY ol.orderinfo_id
+WHERE o.status = "processing"
+
+
+Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentClick
+        cboStatus.SelectedText = ""
+        DataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+        If e.RowIndex >= 0 Then
+            Dim selectedRow As DataGridViewRow = DataGridView1.Rows(e.RowIndex)
+
+            ' Use column index or name to retrieve values
+            txtOrderId.Text = selectedRow.Cells("orderinfo_id").Value.ToString()
+            txtName.Text = selectedRow.Cells("name").Value.ToString() ' Using index
+            Label1.Text = selectedRow.Cells("total").Value.ToString()
+
+
+
+            cboStatus.SelectedText = selectedRow.Cells("status").Value.ToString()
+        End If
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Try
+            conn.Open()
+            sql = $"UPDATE orderinfo SET status = '{cboStatus.SelectedItem}' WHERE orderinfo_id = {Val(txtOrderId.Text)} "
+            dbcomm = New MySqlCommand(sql, conn)
+            Dim i As Integer = dbcomm.ExecuteNonQuery
+
+            If (i > 0) Then
+                MsgBox("record saved")
+            Else
+                MsgBox("record not saved")
+
+            End If
+
+        Catch ex As MySqlException
+            MsgBox(ex.Message)
+            conn.Close()
+        Catch ex As Exception
+            MsgBox(ex.Message)
+            conn.Close()
+
+        End Try
+        conn.Close()
+
+    End Sub
+
+    GRANT ALL ON db_sample1b.* to 'user700'@'localhost' IDENTIFIED BY 'password'
+SET AUTOCOMMIT = 0
+BEGIN 
+DELETE FROM item where item_id = 13;
+COMMIT;
+ROLLBACK
+
+START TRANSACTION; 
+DELETE FROM orderline WHERE item_id = 13;
+DELETE FROM item where item_id = 13;
+ROLLBACK;
+
+START TRANSACTION
+UPDATE item set sell_price = sell_price + 100 
+ROLLBACK;
+
+START TRANSACTION;
+SELECT customer_id from customer where customer_id = 2;
+INSERT INTO orderinfo(customer_id, date_placed, date_shipped, shipping)
+VALUES(2, now(),now(),100);
+INSERT INTO orderline(orderinfo_id, item_id, quantity)
+VALUES(last_insert_id(),8,5);
+UPDATE stock set quantity = quantity - 5 where item_id = 8;
+INSERT INTO orderline(orderinfo_id, item_id, quantity)
+VALUES(last_insert_id(),10,5);
+UPDATE stock set quantity = quantity - 5 where item_id = 10;
+INSERT INTO orderline(orderinfo_id, item_id, quantity)
+VALUES(last_insert_id(),13,5);
+UPDATE stock set quantity = quantity - 5 where item_id = 13;
+ROLLBACK;
+COMMIT;
+
+Try
+            conn.Open()
+            myTrans = conn.BeginTransaction()
+
+            sql = $"INSERT INTO orderinfo (customer_id, date_placed, date_shipped, shipping) VALUES({customerId}, now(), '{Convert.ToDateTime(DateTimePicker1.Value).ToString("yyyy-MM-dd")}', {Val(txtShip.Text)} )"
+            Label1.Text = sql
+            dbcomm = New MySqlCommand(sql, conn)
+
+            i = dbcomm.ExecuteNonQuery
+            If (i > 0) Then
+                MsgBox("record saved")
+            Else
+                MsgBox("record not saved")
+
+            End If
+
+            For Each row As DataGridViewRow In DataGridView1.Rows
+                sql = $"INSERT INTO orderline (orderinfo_id, item_id, quantity) VALUES(last_insert_id(), {row.Cells("item_id").Value}, {row.Cells("quantity").Value})"
+                Label1.Text = sql
+                dbcomm = New MySqlCommand(sql, conn)
+                i = dbcomm.ExecuteNonQuery
+                If (i > 0) Then
+                    MsgBox("insert into ordelrine ok")
+                Else
+                    MsgBox("orderline not saved")
+
+                End If
+                sql = $"UPDATE stock SET quantity = quantity - {Val(row.Cells("quantity").Value)} WHERE item_id = {Val(row.Cells("item_id").Value)}"
+                dbcomm = New MySqlCommand(sql, conn)
+                i = dbcomm.ExecuteNonQuery
+                If (i > 0) Then
+                    MsgBox("stock saved")
+                Else
+                    MsgBox("stock not saved")
+
+                End If
+
+
+            Next
+            myTrans.Commit()
+
+        Catch ex As MySqlException
+            MsgBox(ex.Message)
+            myTrans.Rollback()
+
+            conn.Close()
+        Catch ex As Exception
+            MsgBox(ex.Message)
+            myTrans.Rollback()
+
+            conn.Close()
+        End Try
+        conn.Close()
+    End 
+
+
+
